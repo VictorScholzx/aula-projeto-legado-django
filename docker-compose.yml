@@ -1,0 +1,19 @@
+services:
+  backend:
+    build: ./backend-django
+    ports:
+      - "8080:8080"
+    volumes:
+      - sqlite_data:/app/data   # persiste o db.sqlite3 entre reinicializações
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    restart: unless-stopped
+
+volumes:
+  sqlite_data:

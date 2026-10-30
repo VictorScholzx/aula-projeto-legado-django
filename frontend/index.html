@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sistema de Estacionamento</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <nav class="sidebar">
+    <div class="sidebar-header">
+      <span class="sidebar-icon">&#x1F697;</span>
+      <h1>Estacionamento</h1>
+    </div>
+    <ul class="nav-menu">
+      <li><a href="#dashboard"       class="nav-link active" data-section="dashboard">&#x1F4CA; Dashboard</a></li>
+      <li><a href="#clientes"        class="nav-link" data-section="clientes">&#x1F464; Clientes</a></li>
+      <li><a href="#veiculos"        class="nav-link" data-section="veiculos">&#x1F698; Veículos</a></li>
+      <li><a href="#vagas"           class="nav-link" data-section="vagas">&#x1F17F;&#xFE0F; Vagas</a></li>
+      <li><a href="#estacionamento"  class="nav-link" data-section="estacionamento">&#x1F511; Estacionamento</a></li>
+      <li><a href="#historico"       class="nav-link" data-section="historico">&#x1F4CB; Histórico</a></li>
+    </ul>
+  </nav>
+
+  <!-- Main -->
+  <main class="main">
+
+    <!-- Toast -->
+    <div id="toast" class="toast hidden"></div>
+
+    <!-- ───────── DASHBOARD ───────── -->
+    <section id="dashboard" class="section active">
+      <h2 class="page-title">Dashboard</h2>
+      <div class="stats-grid" id="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="stat-total">–</div>
+          <div class="stat-label">Total de Vagas</div>
+        </div>
+        <div class="stat-card green">
+          <div class="stat-value" id="stat-livres">–</div>
+          <div class="stat-label">Vagas Livres</div>
+        </div>
+        <div class="stat-card red">
+          <div class="stat-value" id="stat-ocupadas">–</div>
+          <div class="stat-label">Vagas Ocupadas</div>
+        </div>
+        <div class="stat-card blue">
+          <div class="stat-value" id="stat-estacionados">–</div>
+          <div class="stat-label">Veículos Estacionados</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── CLIENTES ───────── -->
+    <section id="clientes" class="section">
+      <div class="section-header">
+        <h2 class="page-title">Clientes</h2>
+        <button class="btn btn-primary" onclick="Clientes.abrirFormNovo()">+ Novo Cliente</button>
+      </div>
+      <div class="table-wrapper">
+        <table class="table" id="tabela-clientes">
+          <thead>
+            <tr>
+              <th>ID</th><th>Nome</th><th>CPF</th><th>Telefone</th><th>E-mail</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-clientes"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ───────── VEÍCULOS ───────── -->
+    <section id="veiculos" class="section">
+      <div class="section-header">
+        <h2 class="page-title">Veículos</h2>
+        <button class="btn btn-primary" onclick="Veiculos.abrirFormNovo()">+ Novo Veículo</button>
+      </div>
+      <div class="table-wrapper">
+        <table class="table" id="tabela-veiculos">
+          <thead>
+            <tr>
+              <th>ID</th><th>Placa</th><th>Marca</th><th>Modelo</th><th>Cor</th><th>Cliente</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-veiculos"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ───────── VAGAS ───────── -->
+    <section id="vagas" class="section">
+      <div class="section-header">
+        <h2 class="page-title">Vagas</h2>
+        <button class="btn btn-primary" onclick="Vagas.abrirFormNovo()">+ Nova Vaga</button>
+      </div>
+      <div class="table-wrapper">
+        <table class="table" id="tabela-vagas">
+          <thead>
+            <tr>
+              <th>ID</th><th>Número</th><th>Tipo</th><th>Status</th><th>Ações</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-vagas"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ───────── ESTACIONAMENTO ───────── -->
+    <section id="estacionamento" class="section">
+      <h2 class="page-title">Controle de Estacionamento</h2>
+
+      <div class="card">
+        <h3 class="card-title">Registrar Entrada</h3>
+        <form id="form-entrada" onsubmit="Permanencias.registrarEntrada(event)">
+          <div class="form-row">
+            <div class="form-group">
+              <label>Veículo</label>
+              <select id="entrada-veiculo" required>
+                <option value="">Selecione o veículo</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Vaga Disponível</label>
+              <select id="entrada-vaga" required>
+                <option value="">Selecione a vaga</option>
+              </select>
+            </div>
+            <div class="form-group form-group-btn">
+              <button type="submit" class="btn btn-primary">Registrar Entrada</button>
+            </div>
+          </div>
+        </form>
+      </div>
+
+      <div class="card">
+        <h3 class="card-title">Veículos Estacionados</h3>
+        <div class="table-wrapper">
+          <table class="table">
+            <thead>
+              <tr>
+                <th>ID</th><th>Veículo</th><th>Placa</th><th>Vaga</th><th>Entrada</th><th>Ação</th>
+              </tr>
+            </thead>
+            <tbody id="tbody-estacionados"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- ───────── HISTÓRICO ───────── -->
+    <section id="historico" class="section">
+      <h2 class="page-title">Histórico de Permanências</h2>
+      <div class="table-wrapper">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>ID</th><th>Veículo</th><th>Placa</th><th>Vaga</th>
+              <th>Entrada</th><th>Saída</th><th>Valor</th>
+            </tr>
+          </thead>
+          <tbody id="tbody-historico"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- Modal -->
+<div id="modal-overlay" class="modal-overlay hidden" onclick="closeModalOverlay(event)">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="modal-title"></h3>
+      <button class="modal-close" onclick="closeModal()">&times;</button>
+    </div>
+    <div id="modal-body" class="modal-body"></div>
+  </div>
+</div>
+
+<script src="js/api.js"></script>
+<script src="js/clientes.js"></script>
+<script src="js/veiculos.js"></script>
+<script src="js/vagas.js"></script>
+<script src="js/permanencias.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
